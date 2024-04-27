@@ -5,8 +5,11 @@ const Stopwatch = () => {
     const [value, setValue] = useState(0);
     const timer = useRef(null);
 
-    const clickStart = () => {
-        if (!isRunning) {
+    const clickToggle = () => {
+        if (isRunning) {
+            clearInterval(timer.current);
+            setIsRunning(false);
+        } else {
             setIsRunning(true);
             timer.current = setInterval(() => {
                 setValue(prevValue => prevValue + 1);
@@ -14,7 +17,7 @@ const Stopwatch = () => {
         }
     };
 
-    const clickStop = () => {
+    const clickReset = () => {
         setValue(0);
         clearInterval(timer.current);
         setIsRunning(false);
@@ -30,8 +33,8 @@ const Stopwatch = () => {
         <div>
             <h1>Stopwatch</h1>
             <p>Time: {formatTime(value)}</p>
-            <button onClick={clickStart}>Start</button>
-            <button onClick={clickStop}>Reset</button>
+            <button onClick={clickToggle}>{isRunning ? 'Stop' : 'Start'}</button>
+            <button onClick={clickReset}>Reset</button>
         </div>
     );
 };
