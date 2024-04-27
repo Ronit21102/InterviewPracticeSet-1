@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 function App() {
    const [fullName, setFullName] = useState('');
@@ -8,7 +8,14 @@ function App() {
 
    const addName = (e) => {
      e.preventDefault();
-     setFullName(`${firstName.current.value} ${lastName.current.value}`);
+     const sanitizedFirstName = sanitizeInput(firstName.current.value);
+     const sanitizedLastName = sanitizeInput(lastName.current.value);
+     setFullName(`${sanitizedFirstName} ${sanitizedLastName}`);
+   }
+
+   const sanitizeInput = (input) => {
+     // Regular expression to remove special characters
+     return input.replace(/[^\w\s]/gi, '');
    }
    
   return (
