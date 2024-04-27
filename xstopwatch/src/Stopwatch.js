@@ -1,35 +1,39 @@
-import React,{useState,useRef} from 'react'
-
+import React, { useState, useRef } from 'react';
 
 const Stopwatch = () => {
-    const [isRunning,setIsRunning] = useState(false);
-     const [value,setValue]=useState(0);
-     const timer = useRef(null)
-    const clickStart = ()=>{
-        if(!isRunning){
-            setIsRunning(true)
-             console.log("render")
-            timer.current= setInterval(()=>{
-                setValue(prev=>prev+1)
-            },1000)
-        }
-    }
+    const [isRunning, setIsRunning] = useState(false);
+    const [value, setValue] = useState(0);
+    const timer = useRef(null);
 
-    const clickStop =()=>{
-        
+    const clickStart = () => {
+        if (!isRunning) {
+            setIsRunning(true);
+            timer.current = setInterval(() => {
+                setValue(prevValue => prevValue + 1);
+            }, 1000);
+        }
+    };
+
+    const clickStop = () => {
         setValue(0);
         clearInterval(timer.current);
-        setIsRunning(false)
-        
-    }
-  return (
-    <div>
-        <h1>Stopwatch</h1>
-        <p>Time: {value}</p>
-        <button onClick={clickStart}>start</button>
-        <button onClick={clickStop}>reset</button>
-    </div>
-  )
-}
+        setIsRunning(false);
+    };
 
-export default Stopwatch
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+    return (
+        <div>
+            <h1>Stopwatch</h1>
+            <p>Time: {formatTime(value)}</p>
+            <button onClick={clickStart}>Start</button>
+            <button onClick={clickStop}>Reset</button>
+        </div>
+    );
+};
+
+export default Stopwatch;
