@@ -1,32 +1,45 @@
-import React, { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-   const [fullName, setFullName] = useState('');
-   
-   const firstName = useRef();
-   const lastName = useRef();
+  const [first, setFirst] = useState("");
+  const [last, setLast] = useState("");
+  const [fullName, setFullName] = useState("");
 
-   const addName = (e) => {
-     e.preventDefault();
-     const sanitizedFirstName = sanitizeInput(firstName.current.value);
-     const sanitizedLastName = sanitizeInput(lastName.current.value);
-     setFullName(`${sanitizedFirstName} ${sanitizedLastName}`);
-   }
+  const handleFirst = (e) => {
+    setFirst(e.target.value);
+  };
 
-   const sanitizeInput = (input) => {
-     // Regular expression to remove special characters and numbers
-     return input.replace(/[^a-zA-Z\s]/g, '');
-   }
-   
+  const handleLast = (e) => {
+    setLast(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!first || !last) {
+      setFullName("");
+      return;
+    }
+    let res = first + " " + last;
+    setFullName(res);
+  };
   return (
-    <form onSubmit={addName}>
-       <h1>Full Name Display</h1>
-       <span>First Name:</span><input type="text" ref={firstName} required /><br/>
-       <span>Last Name:</span><input type='text' ref={lastName} required /><br/>
-       <button type="submit">Submit</button>
-       
-       {fullName && <p>Full Name: {fullName}</p>}
-    </form>
+    <>
+      <div className="App">
+        <h1>Full Name Display</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <p>First Name:</p>
+            <input type="text" value={first} onChange={(e) => handleFirst(e)} />
+          </div>
+          <div>
+            <p>Last Name:</p>
+            <input type="text" value={last} onChange={(e) => handleLast(e)} />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+        {fullName && <div>Full Name: {fullName}</div>}
+      </div>
+    </>
   );
 }
 
