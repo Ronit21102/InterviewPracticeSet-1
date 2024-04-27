@@ -14,8 +14,8 @@ function App() {
    }
 
    const sanitizeInput = (input) => {
-     // Regular expression to remove special characters
-     return input.replace(/[^\w\s]/gi, '');
+     // Regular expression to remove special characters and numbers
+     return input.replace(/[^a-zA-Z\s]/g, '');
    }
    
   return (
